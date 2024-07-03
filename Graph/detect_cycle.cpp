@@ -32,15 +32,16 @@ bool cycleBFS(int i, vector<bool>vis, vector<int>adj[], int parent){
 //----------Cycle in Directed Graph
 // Using DFS
 
-bool cycleDfs(int node, vector<bool>vis, vector<int>adj[], int parent){
-    vis[node] = true;
-    for(int i: adj[node]){ 
-        if(i == parent) continue;
-        if(vis[i] == 1) return true; // detected a loop
-        if(cycleDfs(i, vis, adj, node)) return true;        
+bool cycleDFS(int node, vector<bool> &vis, vector<bool> &pathVis, vector<int>adj[]){
+        vis[node] = true;
+        pathVis[node] = true;
+        for(int i : adj[node]){
+            if(vis[i] && pathVis[i]) return true;
+            if(!vis[i] && cycleDFS(i, vis, pathVis, adj)) return true;
+        }
+        pathVis[node] = false;
+        return false;
     }
-    return false;
-}
 
 
 // Using BFS
