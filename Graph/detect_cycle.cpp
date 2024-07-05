@@ -33,15 +33,15 @@ bool cycleBFS(int i, vector<bool>vis, vector<int>adj[], int parent){
 // Using DFS
 
 bool cycleDFS(int node, vector<bool> &vis, vector<bool> &pathVis, vector<int>adj[]){
-        vis[node] = true;
-        pathVis[node] = true;
-        for(int i : adj[node]){
-            if(vis[i] && pathVis[i]) return true;
-            if(!vis[i] && cycleDFS(i, vis, pathVis, adj)) return true;
-        }
-        pathVis[node] = false;
-        return false;
+    vis[node] = true;
+    pathVis[node] = true;
+    for(int i : adj[node]){
+        if(vis[i] && pathVis[i]) return true;
+        if(!vis[i] && cycleDFS(i, vis, pathVis, adj)) return true;
     }
+    pathVis[node] = false;
+    return false;
+}
 
 
 // Using BFS
