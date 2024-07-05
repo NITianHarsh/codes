@@ -45,17 +45,29 @@ bool cycleDFS(int node, vector<bool> &vis, vector<bool> &pathVis, vector<int>adj
 
 
 // Using BFS
-bool cycleBFS(int i, vector<bool>vis, vector<int>adj[], int parent){
-    queue<int>q; q.push(i);
-    vis[i] = true;
+bool cycleBFS(int V, vector<int> adj[]){
+	queue<int>q; int count = 0;
+    vector<int>indegree(V, 0);
+    // finding Indegree
+	for(int i=0; i<V; i++){
+	    for(int j=0; j<adj[i].size(); j++){
+	        indegree[adj[i][j]]++;
+	    }
+    }
+    // simple BFS with cond. indegree = 0 -> q.push();
+    for(int i=0; i<V; i++){
+        if(indegree[i]==0) q.push(i); count++;
+    }
+    
     while(!q.empty()){
-        int curr = q.front(); q.pop();
-        for(int j: adj[curr]){
-            if(j == parent) continue;
-            if(vis[j]) return true;
-            if(cycleBFS(j, vis, adj, curr)) return true;
+        int front=q.front();  q.pop();
+        
+        for(int i:adj[front]){
+            indegree[i]--;
+            if(indegree[i]==0) q.push(i); count++;
         }
     }
-    return false;
+    if(count == V) return false; // means kanh algo complete, thus No cycle
+    return true;
 }
 
