@@ -29,6 +29,7 @@ vector<int> topoSort(int V, vector<int> adj[]){
 }
 
 // Using BFS  i.e., KAHN'S ALGORITHM
+
 vector<int> kahnAlgo(int V, vector<int> adj[]){
 	queue<int>q;
     vector<int>indegree(V, 0);
