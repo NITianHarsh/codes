@@ -51,26 +51,30 @@ vector<int> shorDis(vector<vector<pair<int, int>>> &adj, int V) {
 }
 
 
-// shortest path in a Undirected Graph
+// shortest path in a Undirected Graph with unit wt nodes
 // BFS
 
 vector<int> shortestPathBFS(int V, vector<vector<int>> &adj, int src) {
-    vector<int> distance(V, -1);
-    queue<int> q;
-    distance[src] = 0;
-    q.push(src);
-
-    while (!q.empty()) {
-        int node = q.front();
+    queue<pair<int,int>> q;
+    vector<int> dis(V, 1e9);
+    dis[src] = 0;
+        
+    q.push({src, 0});
+    while(!q.empty()){
+        int cr = q.front().first;
+        int cw = q.front().second;
         q.pop();
 
-        for (int neighbor : adj[node]) {
-            if (distance[neighbor] == -1) {  // if the neighbor has not been visited
-                distance[neighbor] = distance[node] + 1;
-                q.push(neighbor);
+        for(int i: adj[cr]){
+            if(1 + cw < dis[i]){
+                dis[i] = 1 + cw;
+                q.push({i, dis[i]});
             }
         }
     }
-
-    return distance;
+        
+    for(int i=0; i<V; i++){
+        if(dis[i] == 1e9) dis[i] = -1;
+    }
+    return dis;
 }
