@@ -42,24 +42,21 @@ public:  // constructor defining
         }
     }
 // what will it do 
-    int findPar(int n) {
-        if(n == parent[n]) return n;
-        return parent[n] = findPar(parent[n]);
+    int find(int u) {
+        if (u != parent[u])
+            parent[u] = find(parent[u]);
+        return parent[u];
     }
 
-    void unionOperation(int x, int y) {
-        int xP = findPar(x);
-        int yP = findPar(y);
-
-        if(xP == yP) return ; // means belongs to same component
-        
-        if(rank[xP] < rank[yP]) {
-            parent[x] = y;
-        } else if(rank[xP] < rank[yP]) {
-            parent[y] = x;
-        } else {
-            parent[y] = x;
-            rank[yP]++;
+    void unionOperation(int u, int v) {
+        u = find(u);
+        v = find(v);
+        if (u != v) {
+            if (rank[u] < rank[v])
+                swap(u, v);
+            parent[v] = u;
+            if (rank[u] == rank[v])
+                ++rank[u];
         }
     }
 };
